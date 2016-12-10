@@ -1,0 +1,155 @@
+<?php
+
+namespace Bibliotheque\Bundle\BiblioBundle\Entity;
+
+use Bibliotheque\Bundle\BiblioBundle\Model\Document;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Illustration
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Bibliotheque\Bundle\BiblioBundle\Entity\IllustrationRepository")
+ */
+class Illustration
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="code_illustration", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $code_illustration;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_page", type="integer")
+     */
+    private $numeroPage;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legende", type="string", length=30)
+     */
+    private $legende;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_legende", type="integer")
+     */
+    private $numeroLegende;
+
+
+    /**
+     * @var TypeIllustration
+     *
+     * @ORM\ManyToOne(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\TypeIllustration", inversedBy="illustrations")
+     */
+    private $type_illustration;
+
+
+    /**
+     * @var Livre
+     *
+     * @ORM\ManyToOne(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Livre", inversedBy="illustrations")
+     */
+    private $livre;
+
+    /**
+     * @var Usuel
+     *
+     * @ORM\ManyToOne(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Usuel", inversedBy="illustrations")
+     */
+    private $esuel;
+
+    /**
+     * @var Article
+     *
+     * @ORM\ManyToOne(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Article", inversedBy="illustrations")
+     */
+    private $article;
+
+
+    /**
+     * Get CodeIllustration
+     *
+     * @return integer 
+     */
+    public function getCodeIllustration()
+    {
+        return $this->code_illustration;
+    }
+
+    /**
+     * Set numeroPage
+     *
+     * @param integer $numeroPage
+     * @return Illustration
+     */
+    public function setNumeroPage($numeroPage)
+    {
+        $this->numeroPage = $numeroPage;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroPage
+     *
+     * @return integer 
+     */
+    public function getNumeroPage()
+    {
+        return $this->numeroPage;
+    }
+
+    /**
+     * Set legende
+     *
+     * @param string $legende
+     * @return Illustration
+     */
+    public function setLegende($legende)
+    {
+        $this->legende = $legende;
+
+        return $this;
+    }
+
+    /**
+     * Get legende
+     *
+     * @return string 
+     */
+    public function getLegende()
+    {
+        return $this->legende;
+    }
+
+    /**
+     * Set numeroLegende
+     *
+     * @param integer $numeroLegende
+     * @return Illustration
+     */
+    public function setNumeroLegende($numeroLegende)
+    {
+        $this->numeroLegende = $numeroLegende;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroLegende
+     *
+     * @return integer 
+     */
+    public function getNumeroLegende()
+    {
+        return $this->numeroLegende;
+    }
+}

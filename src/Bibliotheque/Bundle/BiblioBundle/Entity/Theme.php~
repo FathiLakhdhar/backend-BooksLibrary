@@ -1,0 +1,71 @@
+<?php
+
+namespace Bibliotheque\Bundle\BiblioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Theme
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Bibliotheque\Bundle\BiblioBundle\Entity\ThemeRepository")
+ */
+class Theme
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="code_theme", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $code_theme;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="theme", type="string", length=30)
+     */
+    private $theme;
+
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Usuel", mappedBy="themes")
+     */
+    private $usuels;
+
+
+    /**
+     * Get codeTheme
+     *
+     * @return integer 
+     */
+    public function getCodeTheme()
+    {
+        return $this->code_theme;
+    }
+
+    /**
+     * Set theme
+     *
+     * @param string $theme
+     * @return Theme
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string 
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
+}

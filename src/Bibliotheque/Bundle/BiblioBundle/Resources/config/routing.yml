@@ -1,0 +1,31 @@
+bibliotheque_biblio_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BibliothequeBiblioBundle:Default:index }
+
+
+
+api_livre:
+    prefix:     /books
+    resource:   '@BibliothequeBiblioBundle/Controller/ApiLivreController.php'
+    type:       annotation
+
+api_langage:
+    prefix:     /language
+    resource:   '@BibliothequeBiblioBundle/Controller/ApiLanguageController.php'
+    type:       annotation
+
+
+api_author:
+    prefix:     /author
+    resource:   '@BibliothequeBiblioBundle/Controller/ApiAuthorController.php'
+    type:       annotation
+
+api_edition:
+    prefix:     /edition
+    resource:   '@BibliothequeBiblioBundle/Controller/ApiEditionController.php'
+    type:       annotation
+
+api_search:
+    prefix:     /search
+    resource:   '@BibliothequeBiblioBundle/Controller/ApiSearchController.php'
+    type:       annotation

@@ -1,0 +1,140 @@
+<?php
+
+namespace Bibliotheque\Bundle\BiblioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Edition
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Bibliotheque\Bundle\BiblioBundle\Entity\EditionRepository")
+ */
+class Edition
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="isbn", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $isbn;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_edition", type="date")
+     */
+    private $dateEdition;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="maison", type="string", length=30)
+     */
+    private $maison;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pays", type="string", length=30)
+     */
+    private $pays;
+
+
+    /**
+     * @var Livre
+     *
+     * @ORM\OneToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Livre", mappedBy="edition")
+     */
+    private $livres;
+
+    /**
+     * @var Usuel
+     *
+     * @ORM\OneToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Usuel", mappedBy="edition")
+     */
+    private $usuels;
+
+
+
+    /**
+     * Get isbn
+     *
+     * @return integer 
+     */
+    public function getIsbn()
+    {
+        return $this->isbn;
+    }
+
+    /**
+     * Set dateEdition
+     *
+     * @param \DateTime $dateEdition
+     * @return Edition
+     */
+    public function setDateEdition($dateEdition)
+    {
+        $this->dateEdition = $dateEdition;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEdition
+     *
+     * @return \DateTime 
+     */
+    public function getDateEdition()
+    {
+        return $this->dateEdition;
+    }
+
+    /**
+     * Set maison
+     *
+     * @param string $maison
+     * @return Edition
+     */
+    public function setMaison($maison)
+    {
+        $this->maison = $maison;
+
+        return $this;
+    }
+
+    /**
+     * Get maison
+     *
+     * @return string 
+     */
+    public function getMaison()
+    {
+        return $this->maison;
+    }
+
+    /**
+     * Set pays
+     *
+     * @param string $pays
+     * @return Edition
+     */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays
+     *
+     * @return string 
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+}

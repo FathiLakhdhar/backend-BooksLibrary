@@ -1,0 +1,345 @@
+<?php
+
+namespace Bibliotheque\Bundle\BiblioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Bibliotheque\Bundle\BiblioBundle\Entity\TypePersonne;
+
+/**
+ * Personne
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Bibliotheque\Bundle\BiblioBundle\Entity\PersonneRepository")
+ */
+class Personne
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="code_personne", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $code_personne;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=20)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=20)
+     */
+    private $prenom;
+
+    /**
+     * @var TypePersonne
+     * @ORM\ManyToOne(targetEntity="TypePersonne", inversedBy="personnes")
+     * @ORM\JoinColumn(name="code_type_personne", referencedColumnName="code_type_personne")
+     */
+    private $type_personne;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Livre", inversedBy="ecrivains")
+     * @ORM\JoinTable(name="ecrivains_livres",
+     *     joinColumns={@ORM\JoinColumn(name="code_personne", referencedColumnName="code_personne")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="code_livre", referencedColumnName="code_livre")}
+     *     )
+     */
+    private $livres;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Usuel", inversedBy="ecrivains")
+     * @ORM\JoinTable(name="ecrivains_usuels",
+     *     joinColumns={@ORM\JoinColumn(name="code_personne", referencedColumnName="code_personne")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="code_usuel", referencedColumnName="code_usuel")}
+     *     )
+     */
+    private $usuels;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Article", inversedBy="ecrivains")
+     * @ORM\JoinTable(name="ecrivains_articles",
+     *     joinColumns={@ORM\JoinColumn(name="code_personne", referencedColumnName="code_personne")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="code_article", referencedColumnName="code_article")}
+     * )
+     */
+    private $articles;
+
+
+    /**
+     * @var Periodique
+     *
+     * @ORM\OneToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Periodique", mappedBy="redacteur_en_chef")
+     */
+    private $periodiques_redacteur_en_chef;
+
+    /**
+     * @var Periodique
+     *
+     * @ORM\OneToMany(targetEntity="Bibliotheque\Bundle\BiblioBundle\Entity\Periodique", mappedBy="directeur")
+     */
+    private $periodiques_directeur;
+
+
+    /**
+     * Get codePersonne
+     *
+     * @return integer 
+     */
+    public function getCodePersonne()
+    {
+        return $this->code_personne;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Personne
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     * @return Personne
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string 
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->livres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usuels = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+
+    }
+
+    /**
+     * Set type_personne
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\TypePersonne $typePersonne
+     * @return Personne
+     */
+    public function setTypePersonne(\Bibliotheque\Bundle\BiblioBundle\Entity\TypePersonne $typePersonne = null)
+    {
+        $this->type_personne = $typePersonne;
+
+        return $this;
+    }
+
+    /**
+     * Get type_personne
+     *
+     * @return \Bibliotheque\Bundle\BiblioBundle\Entity\TypePersonne 
+     */
+    public function getTypePersonne()
+    {
+        return $this->type_personne;
+    }
+
+    /**
+     * Add livres
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Livre $livres
+     * @return Personne
+     */
+    public function addLivre(\Bibliotheque\Bundle\BiblioBundle\Entity\Livre $livres)
+    {
+        $this->livres[] = $livres;
+
+        return $this;
+    }
+
+    /**
+     * Remove livres
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Livre $livres
+     */
+    public function removeLivre(\Bibliotheque\Bundle\BiblioBundle\Entity\Livre $livres)
+    {
+        $this->livres->removeElement($livres);
+    }
+
+    /**
+     * Get livres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLivres()
+    {
+        return $this->livres;
+    }
+
+    /**
+     * Add usuels
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Usuel $usuels
+     * @return Personne
+     */
+    public function addUsuel(\Bibliotheque\Bundle\BiblioBundle\Entity\Usuel $usuels)
+    {
+        $this->usuels[] = $usuels;
+
+        return $this;
+    }
+
+    /**
+     * Remove usuels
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Usuel $usuels
+     */
+    public function removeUsuel(\Bibliotheque\Bundle\BiblioBundle\Entity\Usuel $usuels)
+    {
+        $this->usuels->removeElement($usuels);
+    }
+
+    /**
+     * Get usuels
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuels()
+    {
+        return $this->usuels;
+    }
+
+    /**
+     * Add articles
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Article $articles
+     * @return Personne
+     */
+    public function addArticle(\Bibliotheque\Bundle\BiblioBundle\Entity\Article $articles)
+    {
+        $this->articles[] = $articles;
+
+        return $this;
+    }
+
+    /**
+     * Remove articles
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Article $articles
+     */
+    public function removeArticle(\Bibliotheque\Bundle\BiblioBundle\Entity\Article $articles)
+    {
+        $this->articles->removeElement($articles);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+
+
+    /**
+     * Add periodiques_redacteur_en_chef
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesRedacteurEnChef
+     * @return Personne
+     */
+    public function addPeriodiquesRedacteurEnChef(\Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesRedacteurEnChef)
+    {
+        $this->periodiques_redacteur_en_chef[] = $periodiquesRedacteurEnChef;
+
+        return $this;
+    }
+
+    /**
+     * Remove periodiques_redacteur_en_chef
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesRedacteurEnChef
+     */
+    public function removePeriodiquesRedacteurEnChef(\Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesRedacteurEnChef)
+    {
+        $this->periodiques_redacteur_en_chef->removeElement($periodiquesRedacteurEnChef);
+    }
+
+    /**
+     * Get periodiques_redacteur_en_chef
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPeriodiquesRedacteurEnChef()
+    {
+        return $this->periodiques_redacteur_en_chef;
+    }
+
+    /**
+     * Add periodiques_directeur
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesDirecteur
+     * @return Personne
+     */
+    public function addPeriodiquesDirecteur(\Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesDirecteur)
+    {
+        $this->periodiques_directeur[] = $periodiquesDirecteur;
+
+        return $this;
+    }
+
+    /**
+     * Remove periodiques_directeur
+     *
+     * @param \Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesDirecteur
+     */
+    public function removePeriodiquesDirecteur(\Bibliotheque\Bundle\BiblioBundle\Entity\Periodique $periodiquesDirecteur)
+    {
+        $this->periodiques_directeur->removeElement($periodiquesDirecteur);
+    }
+
+    /**
+     * Get periodiques_directeur
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPeriodiquesDirecteur()
+    {
+        return $this->periodiques_directeur;
+    }
+}
